@@ -1,0 +1,15 @@
+{
+  "name": "zrender",
+  "homepage": "https://github.com/ecomfe/zrender",
+  "version": "3.0.6",
+  "_release": "3.0.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.0.6",
+    "commit": "185c51a08527113773d5315a5d1b1f0c9e14ed5a"
+  },
+  "_source": "https://github.com/ecomfe/zrender.git",
+  "_target": "^3.0.6",
+  "_originalSource": "https://github.com/ecomfe/zrender.git",
+  "_direct": true
+}
