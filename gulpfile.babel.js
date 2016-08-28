@@ -7,11 +7,7 @@ import {stream as wiredep} from 'wiredep';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
-<<<<<<< HEAD
 const app = "app";
-=======
-const app = "map";
->>>>>>> f20c437bfb51f40cb127406f291682286b070fcc
 
 gulp.task('styles', () => {
   return gulp.src(app + '/styles/*.scss')
