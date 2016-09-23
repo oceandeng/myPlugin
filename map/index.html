@@ -18,35 +18,47 @@
 	<div id="mapContainer"></div>
 	
 	<script type="text/javascript">
-		// 百度地图API功能
-		var map = new BMap.Map("mapContainer");
-		var point = new BMap.Point(116.331398,39.897445);
-		var address = '北京大兴地盛西街1号数码庄园';
+		// // 百度地图API功能
+		// var map = new BMap.Map("mapContainer");
+		// var point = new BMap.Point(116.331398,39.897445);
+		// var address = '北京大兴地盛西街1号数码庄园';
 
-		map.centerAndZoom(point,12);
-		// 创建地址解析器实例
+		// map.centerAndZoom(point,12);
+		// // 创建地址解析器实例
 		
 
-		var myGeo = new BMap.Geocoder();
-		// 北京大兴地盛西街1号数码庄园
-		// 将地址解析结果显示在地图上,并调整地图视野
-		freshMap(address)
-		$('#placeBtn').on('click', function(){
-			freshMap($('#place').val())
-		})
+		// var myGeo = new BMap.Geocoder();
+		// // 北京大兴地盛西街1号数码庄园
+		// // 将地址解析结果显示在地图上,并调整地图视野
+		// freshMap(address)
+		// $('#placeBtn').on('click', function(){
+		// 	freshMap($('#place').val())
+		// })
 
-		function freshMap(address){
-			myGeo.getPoint(address, function(point){
-				if (point) {
-					console.log(point)
-					map.centerAndZoom(point, 16);
-					map.addOverlay(new BMap.Marker(point));
-				}else{
-					alert("您选择地址没有解析到结果!");
-				}
-			}, "北京市");
+		// function freshMap(address){
+		// 	myGeo.getPoint(address, function(point){
+		// 		if (point) {
+		// 			console.log(point)
+		// 			map.centerAndZoom(point, 16);
+		// 			map.addOverlay(new BMap.Marker(point));
+		// 		}else{
+		// 			alert("您选择地址没有解析到结果!");
+		// 		}
+		// 	}, "北京市");
+		// }
+
+		drawMap();
+		
+		function drawMap(){
+			var map = new BMap.Map("mapContainer");
+			map.centerAndZoom(new BMap.Point(116.404, 39.915), 10);
+
+			var p1 = new BMap.Point(116.301934,39.977552);
+			var p2 = new BMap.Point(116.508328,39.919141);
+
+			var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+			driving.search(p1, p2);
 		}
-
 
 	</script>
 </body>
