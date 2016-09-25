@@ -2,43 +2,14 @@
 * @Author: ocean_deng
 * @Date:   2016-09-04 16:09:31
 * @Last Modified by:   ocean_deng
-* @Last Modified time: 2016-09-04 22:04:23
+* @Last Modified time: 2016-09-25 19:53:39
 */
 
 'use strict';
 
-/* requestAnimationFrame.js
- * by zhangxinxu 2013-09-30
-*/
-(function() {
-    var lastTime = 0;
-    var vendors = ['webkit', 'moz'];
-    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||    // name has changed in Webkit
-                                      window[vendors[x] + 'CancelRequestAnimationFrame'];
-    }
-
-    if (!window.requestAnimationFrame) {
-        window.requestAnimationFrame = function(callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16.7 - (currTime - lastTime));
-            var id = window.setTimeout(function() {
-                callback(currTime + timeToCall);
-            }, timeToCall);
-            lastTime = currTime + timeToCall;
-            return id;
-        };
-    }
-    if (!window.cancelAnimationFrame) {
-        window.cancelAnimationFrame = function(id) {
-            clearTimeout(id);
-        };
-    }
-})();
-
-
 var Quintus = function(opts){
+
+	// 基本引擎API
 	var Q = {};
 
 	// Some base optins to be filled in later
@@ -75,7 +46,7 @@ var Quintus = function(opts){
  		return Q;
 	}
 
-
+	// 游戏循环系统
 	Q.gameLoop = function(callback){
 		Q.lastGameLoopFrame = new Date().getTime();
 
@@ -84,7 +55,7 @@ var Quintus = function(opts){
 			Q.loop = requestAnimationFrame(Q.gameLoopCallbackWrapper);
 			var dt = now - Q.lastGameLoopFrame;
 
-			if(dt > 100){dt = 100;}
+			if(dt > 100 || dt < 0){dt = 100;}
 			callback.apply(Q, [dt / 1000]);
 			Q.lastGameLoopFrame = now;
 		}
@@ -104,6 +75,148 @@ var Quintus = function(opts){
 			Q.loop = requestAnimationFrame(Q.gameLoopCallbackWrapper);
 		}
 	}
+
+	// 事件系统 绑定、触发、解绑、释放
+	Q.Evented = Class.extend({
+		bind: function(event, target, callback){
+			if(!callback){
+				callback = target;
+				target = null;
+			}
+
+			if(_.isString(callback)){
+				callback = target[callback];
+			}
+
+			this.listeners = this.listeners || {};
+			this.listeners[event] = this.listeners[event] || [];
+			this.listeners[event].push([target || this, callback]);
+			if(target){
+				if(!target.binds){
+					target.binds = [];
+				}
+				target.binds.push([this, event, callback]);
+			}
+
+		},
+		trigger: function(event, data){
+			if(this.listeners && this.listeners[event]){
+				for(var i = 0, len = this.listeners[event].length; i < len; i++){
+					var listeners = this.listeners[event][i];
+					listeners[1].call(listeners[0], data);
+				}
+			}
+		},
+		unbind: function(event, target, callback){
+			if(!target){
+				if(this.listeners[event]){
+					delete this.listeners[event];
+				}
+			}else{
+				var l = this.listeners && this.listeners[event];
+				if(l){
+					for(var i = l.length - 1; i >=0; i--){
+						if(l[i][0] == target){
+							if(!callback || callback == l[i][1]);
+							this.listeners[event].splice(i, 1);
+						}
+					}
+				}
+			}
+		},
+		debind: function(){
+			if(this.binds){
+				for(var i = 0, len = this.binds.length; i < len; i++){
+					var boundEvent = this.binds[i],
+						source = boundEvent[0],
+						event = boundEvent[1];
+					source.unbind(event, this);
+				}
+			}
+		}
+	})
+
+	// 组件系统 注册、添加、删除、扩充
+	Q.components = {};
+	Q.register = function(name, methods){
+		methods.name = name;
+		Q.components[name] = Q.components.extend(methods);
+	}
+	Q.component = Q.Evented.extend({
+		init: function(entity){
+			this.entity = entity;
+			if(this.extend){
+				_.extend(entity, this.extend);
+			}
+			entity[this.name] = this;
+			entity.activeComponents.push(this.name);
+			if(this.added){
+				this.added();
+			}
+		},
+		destroy: function(){
+			if(this.extend){
+				var extensions = _.keys(this.extend);
+				for(var i = 0, len = extensions.length; i < len; i++){
+					delete this.entity[extensions[i]];
+				}
+
+			}
+			delete this.entity[this.name];
+			var idx = this.entity.activeComponents.indexOf(this.name);
+			if(idx != -1){
+				this.entity.activeComponents.splice(idx, 1);
+			}
+			this.debind();
+			if(this.destroyed){
+				this.destroyed();
+			}
+		}
+	})
+
+	Q.GameObject = Q.Evented.extend({
+		has: function(component){
+			return this[component] ? true : false;
+		},
+		add: function(components){
+			components = Q._normalizeArg(components);
+			if(!this.activeComponents){
+				this.activeComponents = [];
+			}
+			for(var i = 0, len = components.length; i < len; i++){
+				var name = components[i],
+					comp = components[name];
+				if(!this.has(name) && comp){
+					var c = new comp(this);
+					this.trigger('addComponent', c);
+				}
+			}
+			return this;
+		},
+		del: function(components){
+			components = Q._normalizeArg(components);
+			for(var i = 0, len = components.length; i < len; i++){
+				var name = components[i];
+				if(name && this.has(name)){
+					this.trigger('delComponent', this[name]);
+					this[name].destroy();
+				}
+			}
+			return this;
+		},
+		destroy: function(){
+			if(this.destroyed){
+				return;
+			}
+			this.debind();
+			if(this.parent && this.parent.remove){
+				this.parent.remove(this);
+			}
+			this.trigger('removed');
+			this.destroyed = true;
+		}
+	});
+
 
 	// TODO: Additional Quintus Code goes here
 	return Q;
