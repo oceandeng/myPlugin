@@ -1,0 +1,228 @@
+$gray: #999;
+
+.row{
+  $r-line-h: 40px;
+  @include clearfix();
+  border-bottom: 1px solid #f2f2f2;
+  background: #fff;
+  height: $r-line-h;
+  padding: 10px 0;
+
+  .col-2{
+    width: 20%;
+    float: left;
+    @include line-height($r-line-h);
+    text-align: left;
+  }
+  .col-2-5{
+    width: 25%;
+    float: left;
+    @include line-height($r-line-h);
+    text-align: left;
+  }
+  .col-3{
+    width: 30%;
+    float: left;
+    @include line-height($r-line-h);
+    text-align: left;
+  }
+  .col-4{
+    width: 40%;
+    float: left;
+    @include line-height($r-line-h);
+    text-align: left;
+  }
+  .col-5{
+    width: 50%;
+    float: left;
+    @include line-height($r-line-h);
+    text-align: left;
+  }
+  .col-6{
+    width: 60%;
+    float: left;
+    @include line-height($r-line-h);
+    text-align: left;
+  }
+  .col-7{
+    width: 70%;
+    float: left;
+    @include line-height($r-line-h);
+    text-align: left;
+  }
+  .col-8{
+    width: 80%;
+    float: left;
+    @include line-height($r-line-h);
+    text-align: left;
+  }
+
+  .r-con{
+    text-align: left;
+  }
+  span{
+    padding: 0 0 0 20px;
+    color: $gray;
+  }
+}
+
+.r-l-tit{
+  $r-line-tit-h: 30px;
+  @include clearfix();
+
+  height: $r-line-tit-h;
+
+  .col-2{
+    @include line-height($r-line-tit-h);
+    text-align: left;
+  }
+  .col-2-5{
+    @include line-height($r-line-tit-h);
+    text-align: left;
+  }
+  .col-3{
+    @include line-height($r-line-tit-h);
+    text-align: left;
+  }
+  .col-4{
+    @include line-height($r-line-tit-h);
+    text-align: left;
+  }
+  .col-5{
+    @include line-height($r-line-tit-h);
+    text-align: left;
+  }
+  .col-6{
+    @include line-height($r-line-tit-h);
+    text-align: left;
+  }
+  .col-7{
+    @include line-height($r-line-tit-h);
+    text-align: left;
+  }
+  .col-8{
+    @include line-height($r-line-tit-h);
+    text-align: left;
+  }
+
+  .r-con{
+    text-align: left;
+  }
+  span{
+    padding: 0 0 0 15px;
+    color: $gray;
+  }
+}
+
+.span3{
+  width: 33.33333333%;
+}
+
+@media screen and (max-width: 320px){
+  .row{
+    $r-line-h: 30px;
+    height: $r-line-h;
+
+    .col-2{
+      width: 20%;
+      float: left;
+      @include line-height($r-line-h);
+      text-align: left;
+    }
+    .col-2-5{
+      width: 25%;
+      float: left;
+      @include line-height($r-line-h);
+      text-align: left;
+    }
+    .col-3{
+      width: 30%;
+      float: left;
+      @include line-height($r-line-h);
+      text-align: left;
+    }
+    .col-4{
+      width: 40%;
+      float: left;
+      @include line-height($r-line-h);
+      text-align: left;
+    }
+    .col-5{
+      width: 50%;
+      float: left;
+      @include line-height($r-line-h);
+      text-align: left;
+    }
+    .col-6{
+      width: 60%;
+      float: left;
+      @include line-height($r-line-h);
+      text-align: left;
+    }
+    .col-7{
+      width: 70%;
+      float: left;
+      @include line-height($r-line-h);
+    }
+    .col-8{
+      width: 80%;
+      float: left;
+      @include line-height($r-line-h);
+    }
+
+    .r-con{
+      text-align: left;
+    }
+    span{
+      padding: 0 0 0 10px;
+      color: $gray;
+    }
+  }
+  .r-l-tit{
+    $r-line-tit-h: 20px;
+    @include clearfix();
+
+    height: $r-line-tit-h;
+
+    .col-2{
+      @include line-height($r-line-tit-h);
+      text-align: left;
+    }
+    .col-2-5{
+      @include line-height($r-line-tit-h);
+      text-align: left;
+    }
+    .col-3{
+      @include line-height($r-line-tit-h);
+      text-align: left;
+    }
+    .col-4{
+      @include line-height($r-line-tit-h);
+      text-align: left;
+    }
+    .col-5{
+      @include line-height($r-line-tit-h);
+      text-align: left;
+    }
+    .col-6{
+      @include line-height($r-line-tit-h);
+      text-align: left;
+    }
+    .col-7{
+      @include line-height($r-line-tit-h);
+      text-align: left;
+    }
+    .col-8{
+      @include line-height($r-line-tit-h);
+      text-align: left;
+    }
+
+    .r-con{
+      text-align: left;
+    }
+    span{
+      padding: 0 0 0 10px;
+      color: $gray;
+    }
+  }
+}

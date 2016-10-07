@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no,email=no">
+<title>dialog</title>
+<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="styles/main.css">
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<button id="confirmBtn" type="button" class="btn btn-default">取消订单</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<button id="dateBtn" type="button" class="btn btn-default">日期保存</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<button id="inputBtn" type="button" class="btn btn-default">输入金额</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<button id="selectBtn" type="button" class="btn btn-default">选择会员卡</button>
+			</div>
+		</div>
+
+	</div>
+
+
+
+
+
+
+<script src="scripts/components/zepto/zepto.js"></script>
+<script src="scripts/components/zepto/ajax.js"></script>
+<script src="scripts/components/zepto/event.js"></script>
+<script src="scripts/components/zepto/touch.js"></script>
+<script src="scripts/components/zepto/fx.js"></script>
+<script src="scripts/components/zepto/fx_methods.js"></script>
+
+<script src="scripts/components/otools.js"></script>
+<script src="scripts/components/fastclick.js"></script>
+<script src="scripts/components/loading.js"></script>
+
+<!-- build:js scripts/dialog/dialog.js -->
+<script src="scripts/dialog/dialog.js"></script>
+<script src="scripts/dialog/facade.js"></script>
+<!-- endbuild -->
+
+<script>
+
+	var gConfig = {
+		absolutePath: 'http://localhost:9000/'	//图片绝对地址
+	}
+
+
+
+	$(function(){
+
+		/************************************
+		 *	确定取消订单吗？ 及其他消息提示弹窗
+		 *	publicDialog.confirm()
+		 *	@param {object}
+		 *************************************/
+		$('#confirmBtn').on('click', function(){
+			publicDialog.confirm({
+				iconPath: gConfig.absolutePath + 'images/warning.png',
+				msg: '确定取消订单吗？',
+				submit: function(){
+					// 确定回调
+		    		console.log('确定回调');
+				},
+				cancel: function(){
+					// 取消回调、 用不到可以不配置此参数
+		    		console.log('取消回调、 用不到可以不配置此参数');
+				}
+			});
+		});
+
+		$('#dateBtn').on('click', function(){
+			// 当前设置未保存，确定离开吗？
+			publicDialog.confirm({
+				iconPath: gConfig.absolutePath + 'images/warning.png',
+				msg: '当前设置未保存，确定离开吗？',
+				submitButton: '离开',
+				cancelButton: '取消',
+				submit: function(){
+					// 确定回调
+		    		console.log('离开回调');
+				},
+				cancel: function(){
+					// 取消回调、 用不到可以不配置此参数
+		    		console.log('取消回调、 用不到可以不配置此参数');
+				}
+			});
+		});
+
+
+		/************************************
+		 *	输入金额弹窗
+		 *	publicDialog.input()
+		 *	@param {object}
+		 *************************************/
+		$('#inputBtn').on('click', function(){
+			var adviceVal = 2000;	//初始化input的值、实际应用中要动态获取
+
+			publicDialog.input({
+				iconPath: gConfig.absolutePath + 'images/warning.png',
+				adviceVal: adviceVal,
+				submit: function(){
+					// 确定回调
+		    		console.log('确定回调');
+
+		    		// 获取input的值
+					var val = this.input.value;
+
+					//验证
+					if(val < 0){
+						oTools.alertmess('请输入正整数！');
+						return false;	// false不关闭弹窗
+					}
+				},
+				cancel: function(){
+					// 取消回调、 用不到可以不配置此参数
+		    		console.log('取消回调、 用不到可以不配置此参数');
+				}
+			})
+		});
+
+		/************************************
+		 *	选择会员级别弹框
+		 *	publicDialog.select()
+		 *	@param {object}
+		 *************************************/
+		$('#selectBtn').on('click', function(){
+			// 获取会员数据及拼装active；
+			var cardItems = [
+					{'name': '大众卡', 'isActive': true},
+					{'name': '黄金卡'},
+					{'name': '砖石卡'}
+				];
+
+			publicDialog.selector({
+				iconPath: gConfig.absolutePath + 'images/warning.png',
+				selectItems: cardItems,
+				ready: function(){
+					// 弹层弹出回调
+					var li = this.dLi;
+
+					$.each(li, function(k, v){
+						var $_this = $(v);
+
+						$_this.on('click', function(){
+							var $__this = $(this);
+
+							$__this.addClass('active').css({'background': '#fff0ed'})
+							$__this.siblings().removeClass('active').css({'background': 'none'})
+						})
+					})
+				},
+				submit: function(){
+					// 确定回调
+		    		console.log('确定回调');
+		    		var li = this.dLi;
+
+		    		$.each(li, function(k, v){
+		    			var $_this = $(v);
+
+		    			if($_this.hasClass('active')){
+		    				console.log($_this.text());
+		    			}
+		    		})
+				},
+				cancel: function(){
+					// 取消回调、 用不到可以不配置此参数
+		    		console.log('取消回调、 用不到可以不配置此参数');
+				}
+			})
+		})
+
+
+	})
+</script>
+
+
+</body>
+</html>

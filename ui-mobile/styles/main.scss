@@ -1,0 +1,12 @@
+@import "mixin", "normalize", "variable", "animate";
+
+html, body{
+	font-family: $family;
+}
+
+@include default-form();
+
+.mt20{margin-top: 20px;}
+.p10{
+	padding: 10px;
+}

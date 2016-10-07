@@ -1,0 +1,25 @@
+@import "mixin";
+
+img{
+	max-width: 100%;
+}
+.p-img{
+	
+	width: 100%;
+	@include clearfix();
+
+	.p-img-box{
+		width: 33.33333333%;
+		float:left;
+		overflow: hidden;
+		border-bottom: 1px solid #fff;
+		text-align: center;
+		overflow: hidden;
+
+		img{
+			margin-left: -1px;
+			border-right: 1px solid #fff;
+			width: 100%;
+		}
+	}
+}

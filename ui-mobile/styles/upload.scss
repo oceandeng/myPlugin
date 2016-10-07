@@ -1,0 +1,63 @@
+@import "mixin";
+
+.upload-img-btn{
+	border: 1px dashed #eee;
+	position: relative;
+	overflow: hidden;
+	@include box-center();
+
+	.upload-img-con{
+		text-align: center;
+		img{
+			width: 40% !important;
+			margin: 10px 0;
+		}
+		p{
+			color: #ccc;
+		}
+	}
+	.upload-file{
+		position: absolute;
+		top: -5000px;
+		left: -5000px;
+	}
+
+}
+
+.upload-img-box{
+	@include clearfix();
+
+	.img-item{
+		float: left;
+		width: 25%;
+		box-sizing: border-box;
+		padding: 0 5px 0 0;
+		margin: 0 0 5px 0;
+		position: relative;
+		@include clearfix();
+
+		.preview{
+			height: 100%;
+			margin: 0 0 5px 0;
+			overflow: hidden;
+		}
+
+		.remove{
+			position: absolute;
+			right: 0;
+			top: -6px;
+			width: 24px;
+			height: 24px;
+			line-height: 24px;
+			background: rgba(255, 0, 0, .9);
+			color: #fff;
+			font-size: 16px;
+			text-align: center;
+			z-index: 9;
+			border-radius: 50%;
+		}
+
+		&:nth-child(4){
+		}
+	}
+}
