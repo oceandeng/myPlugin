@@ -1,7 +1,8 @@
-@import "mixin", "normalize", "variable", "animate";
+@import "mixin", "normalize", "variable";
 
 html, body{
 	font-family: $family;
+	height: 100%;
 }
 
 @include default-form();

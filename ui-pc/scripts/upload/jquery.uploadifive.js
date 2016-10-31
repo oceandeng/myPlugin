@@ -5,6 +5,8 @@ Released under the UploadiFive Standard License <http://www.uploadify.com/upload
 */
 ;(function($) {
 
+    var input, file, files, limit, _file;
+
     var methods = {
 
         init : function(options) {
@@ -13,26 +15,26 @@ Released under the UploadiFive Standard License <http://www.uploadify.com/upload
 
                 // Create a reference to the jQuery DOM object
                 var $this = $(this);
-                    $this.data('uploadifive', {
-                        inputs     : {}, // The object that contains all the file inputs
-                        inputCount : 0,  // The total number of file inputs created
-                        fileID     : 0,
-                        queue      : {
-                                         count      : 0, // Total number of files in the queue
-                                         selected   : 0, // Number of files selected in the last select operation
-                                         replaced   : 0, // Number of files replaced in the last select operation
-                                         errors     : 0, // Number of files that returned an error in the last select operation
-                                         queued     : 0, // Number of files added to the queue in the last select operation
-                                         cancelled  : 0  // Total number of files that have been cancelled or removed from the queue
-                                     },
-                        uploads    : {
-                                         current    : 0, // Number of files currently being uploaded
-                                         attempts   : 0, // Number of file uploads attempted in the last upload operation
-                                         successful : 0, // Number of files successfully uploaded in the last upload operation
-                                         errors     : 0, // Number of files returning errors in the last upload operation
-                                         count      : 0  // Total number of files uploaded successfully
-                                     }
-                    });
+                $this.data('uploadifive', {
+                    inputs     : {}, // The object that contains all the file inputs
+                    inputCount : 0,  // The total number of file inputs created
+                    fileID     : 0,
+                    queue      : {
+                                     count      : 0, // Total number of files in the queue
+                                     selected   : 0, // Number of files selected in the last select operation
+                                     replaced   : 0, // Number of files replaced in the last select operation
+                                     errors     : 0, // Number of files that returned an error in the last select operation
+                                     queued     : 0, // Number of files added to the queue in the last select operation
+                                     cancelled  : 0  // Total number of files that have been cancelled or removed from the queue
+                                 },
+                    uploads    : {
+                                     current    : 0, // Number of files currently being uploaded
+                                     attempts   : 0, // Number of file uploads attempted in the last upload operation
+                                     successful : 0, // Number of files successfully uploaded in the last upload operation
+                                     errors     : 0, // Number of files returning errors in the last upload operation
+                                     count      : 0  // Total number of files uploaded successfully
+                                 }
+                });
                 var $data = $this.data('uploadifive');
 
                 // Set the default options
@@ -140,18 +142,16 @@ Released under the UploadiFive Standard License <http://www.uploadify.com/upload
                             }
                         } else {
                             for (var n = 0; n < limit; n++) {
-                                file = this.files[n];
-
-                                
+                                var file = this.files[n];
                                 $data.addQueueItem(file);
-
-                                
-
                             }
                             $data.inputs[inputName] = this;
                             $data.createInput();
                         }
                         // Upload the file if auto-uploads are enabled
+
+console.log(settings);
+
                         if (settings.auto) {
                             methods.upload.call($this);
                         }
@@ -293,23 +293,22 @@ Released under the UploadiFive Standard License <http://www.uploadify.com/upload
                         
                         file.queueItem.find('.filename').html(fileName);
 
-                        
                         //图片预览
                         if(!/image\/\w+/.test(file.type)){   
                                 //alert("请确保文件为图像类型"); 
                                 console.info('false'); 
                         }else{
                             var reader = new FileReader(); 
-                            reader.readAsDataURL(file); 
-                            reader.onload = function(e){ 
+                            reader.readAsDataURL(file);
+                            reader.onload = function(e){
                                 var base64Con=file.queueItem.find('.fileBase64');
                                 base64Con.find("img").attr('src',this.result);
                                 // //图片缩略图
                                 // var $this=base64Con;
                                 // var conw=$this.width(),conh=$this.height();
                                 // var src=this.result;
-                                // var img = new Image(); 
-                                // img.src =src; 
+                                // var img = new Image();
+                                // img.src =src;
                                 // var imgh=0,imgw=0;
                                 // if(img.complete){
                                 //     console.info(img.complete);
@@ -421,7 +420,7 @@ Released under the UploadiFive Standard License <http://www.uploadify.com/upload
                         $data.uploads.attempted++;
 
                         // Create a new AJAX request
-                        xhr = file.xhr = new XMLHttpRequest();
+                        var xhr = file.xhr = new XMLHttpRequest();
 
                         // Start the upload
                         // Use the faster FormData if it exists
@@ -434,7 +433,7 @@ Released under the UploadiFive Standard License <http://www.uploadify.com/upload
                             formData.append(settings.fileObjName, file);
 
                             // Add the rest of the formData
-                            for (i in settings.formData) {
+                            for (var i in settings.formData) {
                                 formData.append(i, settings.formData[i]);
                             }
 

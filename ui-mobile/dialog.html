@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 <meta name="format-detection" content="telephone=no,email=no">
 <title>dialog</title>
+<!-- build:css styles/bootstrap.min.css -->
 <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- endbuild -->
 <link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
 <body>
@@ -34,24 +36,30 @@
 				<button id="selectBtn" type="button" class="btn btn-default">选择会员卡</button>
 			</div>
 		</div>
-
+		<div class="row">
+			<div class="col-12">
+				<button id="loadingBtn" type="button" class="btn btn-default">loading</button>
+			</div>
+		</div>
 	</div>
 
 
 
 
-
-
+<!-- build:js scripts/zepto.min.js -->
 <script src="scripts/components/zepto/zepto.js"></script>
 <script src="scripts/components/zepto/ajax.js"></script>
 <script src="scripts/components/zepto/event.js"></script>
 <script src="scripts/components/zepto/touch.js"></script>
 <script src="scripts/components/zepto/fx.js"></script>
 <script src="scripts/components/zepto/fx_methods.js"></script>
+<!-- endbuild -->
 
+<!-- build:js scripts/components.js -->
 <script src="scripts/components/otools.js"></script>
 <script src="scripts/components/fastclick.js"></script>
 <script src="scripts/components/loading.js"></script>
+<!-- endbuild -->
 
 <!-- build:js scripts/dialog/dialog.js -->
 <script src="scripts/dialog/dialog.js"></script>
@@ -187,6 +195,17 @@
 		    		console.log('取消回调、 用不到可以不配置此参数');
 				}
 			})
+		})
+		/************************************
+		 *	选择会员级别弹框
+		 *	publicDialog.select()
+		 *	@param {object}
+		 *************************************/
+		$('#loadingBtn').on('click', function(){
+			publicDialog.fullLoading.start();
+			setTimeout(function(){
+				publicDialog.fullLoading.close();
+			}, 2000)
 		})
 
 

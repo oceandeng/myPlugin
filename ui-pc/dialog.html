@@ -7,55 +7,69 @@
 <title>dialog</title>
 <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="styles/main.css">
+
+<link rel="stylesheet" href="scripts/ligerUI/css/ligerui-common.css">
+<link rel="stylesheet" href="scripts/ligerUI/css/ligerui-dialog.css">
 </head>
 <body>
 
 	<div class="container">
 		<div class="row">
-			<div class="col-12">
-				<button id="confirmBtn" type="button" class="btn btn-default">取消订单</button>
+			<div class="col-xs-3">
+				<button id="confirmBtn" type="button" class="btn btn-default">confirm</button>
+			</div>
+			<div class="col-xs-3">
+				<button id="popupBtn" type="button" class="btn btn-default">popup</button>
+			</div>
+			<div class="col-xs-3">
+				<button id="confirmBtn" type="button" class="btn btn-default"></button>
+			</div>
+			<div class="col-xs-3">
+				<button id="confirmBtn" type="button" class="btn btn-default"></button>
 			</div>
 		</div>
-
-		<div class="row">
-			<div class="col-12">
-				<button id="dateBtn" type="button" class="btn btn-default">日期保存</button>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-12">
-				<button id="inputBtn" type="button" class="btn btn-default">输入金额</button>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-12">
-				<button id="selectBtn" type="button" class="btn btn-default">选择会员卡</button>
-			</div>
-		</div>
+		
 
 	</div>
 
 
+<!-- 页面内部弹层 -->
+<div id="dialogBox" style="display: none">
+    <div id="editPop">
+        <div class="edit-pop">
+            <ul>
+                <li>订单号：<span class="l-blue">ZS000000001</span></li>
+                <li>联系电话 : 1391073351</li>
+                <li>预定人：碰碰碰</li>
+                <li>订单总额（元）： 1000</li>
+                <li>
+                    商议总额（元）：
+                    <input id="val" type="text" value="300"/>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="detailPop">
+        <div class="detail-pop room-order-pop">
+
+            <div style="padding: 20px 30px;">
+            	custom html demo
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
-
-
-<script src="scripts/components/zepto/zepto.js"></script>
-<script src="scripts/components/zepto/ajax.js"></script>
-<script src="scripts/components/zepto/event.js"></script>
-<script src="scripts/components/zepto/touch.js"></script>
-<script src="scripts/components/zepto/fx.js"></script>
-<script src="scripts/components/zepto/fx_methods.js"></script>
-
-<script src="scripts/components/otools.js"></script>
-<script src="scripts/components/fastclick.js"></script>
-<script src="scripts/components/loading.js"></script>
+<!-- build:js scripts/jquery.min.js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<!-- endbuild -->
 
 <!-- build:js scripts/dialog/dialog.js -->
+<script src="scripts/ligerUI/js/core/base.js"></script>
+<script src="scripts/ligerUI/js/plugins/ligerDialog.js"></script>
+<script src="scripts/ligerUI/js/plugins/ligerDrag.js"></script>
 <script src="scripts/dialog/dialog.js"></script>
-<script src="scripts/dialog/facade.js"></script>
 <!-- endbuild -->
 
 <script>
@@ -64,131 +78,40 @@
 		absolutePath: 'http://localhost:9000/'	//图片绝对地址
 	}
 
-
-
 	$(function(){
-
-		/************************************
-		 *	确定取消订单吗？ 及其他消息提示弹窗
-		 *	publicDialog.confirm()
-		 *	@param {object}
-		 *************************************/
+    	/**
+    	 * @param {String} tiptitle 
+		 * @param {String} title
+		 * @param {Number or String} width
+		 * @param {Function} okCallback 		 确定回调
+		 * @param {Function} cancelCallback	 取消回调
+		 * @param {String} MyContent
+		 * @param {String} type   warn、success、error、question
+    	 */
 		$('#confirmBtn').on('click', function(){
 			publicDialog.confirm({
-				iconPath: gConfig.absolutePath + 'images/warning.png',
-				msg: '确定取消订单吗？',
-				submit: function(){
-					// 确定回调
-		    		console.log('确定回调');
+				title: '删除提醒',
+				width: 310,
+				okCallback: function(){
+					console.log('ok');
 				},
-				cancel: function(){
-					// 取消回调、 用不到可以不配置此参数
-		    		console.log('取消回调、 用不到可以不配置此参数');
-				}
+				cancelCallback: function(){
+					console.log('cancel');
+				},
+				MyContent: '确定取消此订单吗？',
+				type: 'warn'
 			});
 		});
 
-		$('#dateBtn').on('click', function(){
-			// 当前设置未保存，确定离开吗？
-			publicDialog.confirm({
-				iconPath: gConfig.absolutePath + 'images/warning.png',
-				msg: '当前设置未保存，确定离开吗？',
-				submitButton: '离开',
-				cancelButton: '取消',
-				submit: function(){
-					// 确定回调
-		    		console.log('离开回调');
-				},
-				cancel: function(){
-					// 取消回调、 用不到可以不配置此参数
-		    		console.log('取消回调、 用不到可以不配置此参数');
-				}
-			});
-		});
-
-
-		/************************************
-		 *	输入金额弹窗
-		 *	publicDialog.input()
-		 *	@param {object}
-		 *************************************/
-		$('#inputBtn').on('click', function(){
-			var adviceVal = 2000;	//初始化input的值、实际应用中要动态获取
-
-			publicDialog.input({
-				iconPath: gConfig.absolutePath + 'images/warning.png',
-				adviceVal: adviceVal,
-				submit: function(){
-					// 确定回调
-		    		console.log('确定回调');
-
-		    		// 获取input的值
-					var val = this.input.value;
-
-					//验证
-					if(val < 0){
-						oTools.alertmess('请输入正整数！');
-						return false;	// false不关闭弹窗
-					}
-				},
-				cancel: function(){
-					// 取消回调、 用不到可以不配置此参数
-		    		console.log('取消回调、 用不到可以不配置此参数');
-				}
-			})
-		});
-
-		/************************************
-		 *	选择会员级别弹框
-		 *	publicDialog.select()
-		 *	@param {object}
-		 *************************************/
-		$('#selectBtn').on('click', function(){
-			// 获取会员数据及拼装active；
-			var cardItems = [
-					{'name': '大众卡', 'isActive': true},
-					{'name': '黄金卡'},
-					{'name': '砖石卡'}
-				];
-
-			publicDialog.selector({
-				iconPath: gConfig.absolutePath + 'images/warning.png',
-				selectItems: cardItems,
-				ready: function(){
-					// 弹层弹出回调
-					var li = this.dLi;
-
-					$.each(li, function(k, v){
-						var $_this = $(v);
-
-						$_this.on('click', function(){
-							var $__this = $(this);
-
-							$__this.addClass('active').css({'background': '#fff0ed'})
-							$__this.siblings().removeClass('active').css({'background': 'none'})
-						})
-					})
-				},
-				submit: function(){
-					// 确定回调
-		    		console.log('确定回调');
-		    		var li = this.dLi;
-
-		    		$.each(li, function(k, v){
-		    			var $_this = $(v);
-
-		    			if($_this.hasClass('active')){
-		    				console.log($_this.text());
-		    			}
-		    		})
-				},
-				cancel: function(){
-					// 取消回调、 用不到可以不配置此参数
-		    		console.log('取消回调、 用不到可以不配置此参数');
-				}
-			})
+		$('#popupBtn').on('click', function(){
+			publicDialog.popup({
+	            id: 'detailPop',
+	            title:"订单详情",
+	            target: $("#detailPop"),
+	            wrap: '#dialogBox',
+	            width: 420
+	        })
 		})
-
 
 	})
 </script>

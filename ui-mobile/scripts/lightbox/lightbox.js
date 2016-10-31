@@ -1,8 +1,8 @@
 /* 
 * @Author: ocean
 * @Date:   2015-09-23 15:08:54
-* @Last Modified by:   ocean_deng
-* @Last Modified time: 2016-09-27 14:30:19
+* @Last Modified by:   denghaiyang
+* @Last Modified time: 2016-10-11 16:19:44
 */
 
 'use strict';
@@ -176,7 +176,7 @@
             'width': _this.config.width,
             'height': _this.config.height,
             'position': 'fixed',
-            'z-index': 6,
+            'z-index': 1000,
             'top': 0,
             'overflow': 'hidden'
         });
@@ -186,7 +186,7 @@
             'height': _this.config.height,
             'background': 'rgba(0, 0, 0, .9)',
             'position': 'fixed',
-            'z-index': 5,
+            'z-index': 999,
             'top': 0
         });
 

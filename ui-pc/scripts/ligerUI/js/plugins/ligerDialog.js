@@ -27,7 +27,6 @@
         $(this).removeClass("l-dialog-close-over");
     });
 
-
     $.ligerDialog = function ()
     {
         return l.run.call(null, "ligerDialog", arguments, { isStatic: true });
@@ -46,13 +45,13 @@
     //prevImage(['dialog.gif', 'dialog-winbtns.gif', 'dialog-bc.gif', 'dialog-tc.gif']);
 
     $.ligerDefaults.Dialog = {
-        
+
         cls: null,       //给dialog附加css class
         contentCls: null,
         id: null,        //给dialog附加id
         buttons: null, //按钮集合 
         enterTxt: '',
-        isDrag: false,   //是否拖动
+        isDrag: true,   //是否拖动
         width: 420,     //宽度
         height: null,   //高度，默认自适应 
         content: '',    //内容
@@ -93,6 +92,7 @@
         onClosed: null,
         onStopResize: null,
         minIsHide : false,   //最小化仅隐藏
+        showTop: true,
         overflow : ""
     };
     $.ligerDefaults.DialogString = {
@@ -129,7 +129,30 @@
             var g = this, p = this.options;
             var tmpId = "";
             g.set(p, true);
-            var dialog = $('<div class="l-dialog"><table class="l-dialog-table" cellpadding="0" cellspacing="0" border="0"><tbody><tr><td class="l-dialog-tl"></td><td class="l-dialog-tc"><div class="l-dialog-tc-inner"><div class="l-dialog-icon"></div><div class="l-dialog-title"><i></i></div><div class="l-dialog-winbtns"><div class="l-dialog-winbtn l-dialog-close"></div></div></div></td><td class="l-dialog-tr"></td></tr><tr><td class="l-dialog-cl"></td><td class="l-dialog-cc"><div class="l-dialog-body"><div class="l-dialog-image-none"></div> <div class="l-dialog-content"> </div> <div class="l-dialog-mycontent"></div><div class="l-dialog-buttons"><div class="l-dialog-buttons-inner"></div></td><td class="l-dialog-cr"></td></tr><tr><td class="l-dialog-bl"></td><td class="l-dialog-bc"></td><td class="l-dialog-br"></td></tr></tbody></table></div>');
+            var wrap = '<div class="l-dialog"><table class="l-dialog-table" cellpadding="0" cellspacing="0" border="0">';
+                wrap += '<tbody>';
+                if(p.showTop){
+                    wrap += '<tr><td class="l-dialog-tl"></td>';
+                    wrap += '<td class="l-dialog-tc"><div class="l-dialog-tc-inner"><div class="l-dialog-icon"></div>';
+                    wrap += '<div class="l-dialog-title"><i></i></div><div class="l-dialog-winbtns">';
+                    wrap += '<div class="l-dialog-winbtn l-dialog-close"></div></div></div></td>';
+                    wrap += '<td class="l-dialog-tr"></td></tr>';
+                }
+                wrap += '<tr><td class="l-dialog-cl"></td><td class="l-dialog-cc">';
+                wrap += '<div class="l-dialog-body"><div class="l-dialog-image-none"></div>';
+                if(!p.MyContent){
+                    wrap += '<div class="l-dialog-content"></div>';
+                }
+                if(p.MyContent){
+                    wrap += '<div class="l-dialog-mycontent"></div>';
+                }
+                wrap += '<div class="l-dialog-buttons">';
+                wrap += '<div class="l-dialog-buttons-inner"></div></td><td class="l-dialog-cr"></td></tr>';
+                wrap += '<tr><td class="l-dialog-bl"></td><td class="l-dialog-bc"></td>';
+                wrap += '<td class="l-dialog-br"></td></tr></tbody></table></div>';
+
+            var dialog = $(wrap)
+
             $('body').append(dialog);
             g.dialog = dialog;
             if (p.layoutMode == 2) //上中下布局，不再需要这左右的单元格了
@@ -1091,36 +1114,47 @@
     };
 
   
-     $.ligerDialog.confirm = function (tiptitle,title, width,callback,MyContent, type)
+     // $.ligerDialog.confirm = function (tiptitle, title, width, okCallback, cancelCallback, MyContent, type)
+     $.ligerDialog.confirm = function (obj)
     {
-        if (typeof (title) == "function")
+        if (typeof (obj.title) == "function")
         {
-            callback = title;
-            type = null;
+            obj.okCallback = obj.title;
+            obj.type = null;
         }
-        var btnclick = function (item, Dialog)
+        var okClick = function (item, Dialog)
         {
-            Dialog.close();
-            if (callback)
+            if(obj.okCallback)
             {
-                callback(item.type == 'ok');
+                var result = obj.okCallback(item.type == 'ok');
+                if(result || result == undefined){
+                    Dialog.close();
+                }
             }
         };
-        tiptitle="<p class='dl-title'>"+tiptitle+"</p>";
-        p = {
-            type: type || 'warn',
+        var cancelClick = function(item, Dialog){
+            if(obj.cancelCallback){
+                obj.cancelCallback(item.type == 'cancel');
+            }
+            Dialog.close();
+        };
+        var tiptitle = obj.tiptitle ? "<p class='dl-title'>" + obj.tiptitle + "</p>" : null;
+        var myContent = obj.MyContent ? "<p class='dl-content'>" + obj.MyContent + "</p>" : null;
+        var p = {
+            type: obj.type || 'warn',
             content: tiptitle,
-            width:width,
-            MyContent:MyContent,
+            width: obj.width,
+            showTop: obj.showTop,
+            MyContent: myContent,
             buttons: [
                 {
-                    text: $.ligerDefaults.DialogString.cancel, onclick: btnclick, type: 'cancel', cls: 'btn btn-normal'
+                    text: $.ligerDefaults.DialogString.cancel, onclick: cancelClick, type: 'cancel', cls: 'btn btn-normal'
                 },{
-                    text: $.ligerDefaults.DialogString.ok, onclick: btnclick, type: 'ok', cls: 'btn btn-guide btnMr'
+                    text: $.ligerDefaults.DialogString.ok, onclick: okClick, type: 'ok', cls: 'btn btn-guide btnMr'
                 }
             ]
         };
-        if (typeof (title) == "string" && title != "") p.title = title;
+        if (typeof (obj.title) == "string" && obj.title != "") p.title = obj.title;
         $.extend(p, {
             showMax: false,
             showToggle: false,
@@ -1229,6 +1263,5 @@
         };
         return $.ligerDialog(p);
     };
-
 
 })(jQuery);
