@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>日历</title>
+<link rel="stylesheet" href="styles/calender.css">
+</head>
+<body>
+<div class="item_content" >
+    <div class="hotel_price">
+        <div class="hotel_price_top">
+            <ul>
+                <li><i></i><span>平时市场价格（元）：</span><input type="text" placeHolder="0" id="market"></li>
+                <li><i class="every"></i><span>平时销售价格（元）：</span><input type="text" placeHolder="0" id="sale"></li>
+                <li><i class="week"></i><span>周末价格（元）：</span><input type="text" placeHolder="0" id="weekend"></li>
+            </ul>
+            <!--<div class="easyui-layout body">-->
+                <div region="center">
+                    <div id="fullCalendar" class="easyui-fullCalendar" fit="true"></div>
+                </div>
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
+<script src="scripts/fullCalender/jquery.min.js"></script>
+<script src="scripts/fullCalender/jquery.easyui.min.js"></script>
+<script src="scripts/fullCalender/fullCalender.js"></script>
+
+
+<script>
+	$('#fullCalendar').fullCalendar();
+
+
+
+</script>
+
+</body>
+</html>

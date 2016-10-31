@@ -5,11 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 <meta name="format-detection" content="telephone=no,email=no">
 <meta http-equiv="Access-Control-Allow-Origin" content="*">
-
 <title>Document</title>
+<!-- build:css styles/bootstrap.min.css -->
 <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- endbuild -->
 <!-- build:css styles/main.css -->
 <link rel="stylesheet" type="text/css" href="styles/main.css">
+<link rel="stylesheet" type="text/css" href="styles/lightbox.css">
 <!-- endbuild -->
 </head>
 <body>
@@ -39,9 +41,20 @@
 		        </div>
 		    </div>
 		</div>
+		<div class="row">
+		    <div class="col-sm-6">
+		        <div class="thumbnail">
+		            <div class="caption">
+		            	<h3>uploadimg</h3>
+		                <p>
+		                	<a href="upload.html" class="btn btn-primary" role="button">Button</a>
+		                </p>
+		            </div>
+		        </div>
+		    </div>
+		</div>
 
 	</div>
-
 
 <!-- build:js scripts/zepto.min.js -->
 <script src="scripts/components/zepto/zepto.js"></script>
@@ -56,8 +69,12 @@
 <script src="scripts/components/otools.js"></script>
 <script src="scripts/components/fastclick.js"></script>
 <script src="scripts/components/loading.js"></script>
+<script src="scripts/components/lightbox.js"></script>
+<script src="scripts/components/lightbox-invoke.js"></script>
 <!-- endbuild -->
 
+<!-- build:js scripts/demo.js -->
 <script src="scripts/main.js"></script>
+<!-- endbuild -->
 </body>
 </html>

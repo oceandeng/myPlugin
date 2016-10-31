@@ -7,7 +7,9 @@
 <meta http-equiv="Access-Control-Allow-Origin" content="*">
 
 <title>Document</title>
+<!-- build:css styles/bootstrap.min.css -->
 <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- endbuild -->
 <!-- build:css styles/main.css -->
 <link rel="stylesheet" type="text/css" href="styles/main.css">
 <!-- endbuild -->
@@ -31,9 +33,21 @@
 		    <div class="col-sm-6">
 		        <div class="thumbnail">
 		            <div class="caption">
-		            	<h3>lightbox</h3>
+		            	<h3>uploadimg</h3>
 		                <p>
-		                	<a href="lightbox.html" class="btn btn-primary" role="button">Button</a>
+		                	<a href="upload.html" class="btn btn-primary" role="button">Button</a>
+		                </p>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<div class="row">
+		    <div class="col-sm-6">
+		        <div class="thumbnail">
+		            <div class="caption">
+		            	<h3>日历</h3>
+		                <p>
+		                	<a href="fullcalender.html" class="btn btn-primary" role="button">Button</a>
 		                </p>
 		            </div>
 		        </div>
@@ -41,21 +55,8 @@
 		</div>
 
 	</div>
-
-
-<!-- build:js scripts/zepto.min.js -->
-<script src="scripts/components/zepto/zepto.js"></script>
-<script src="scripts/components/zepto/ajax.js"></script>
-<script src="scripts/components/zepto/event.js"></script>
-<script src="scripts/components/zepto/touch.js"></script>
-<script src="scripts/components/zepto/fx.js"></script>
-<script src="scripts/components/zepto/fx_methods.js"></script>
-<!-- endbuild -->
-
-<!-- build:js scripts/components.js -->
-<script src="scripts/components/otools.js"></script>
-<script src="scripts/components/fastclick.js"></script>
-<script src="scripts/components/loading.js"></script>
+<!-- build:js scripts/jquery.min.js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
 <!-- endbuild -->
 
 <script src="scripts/main.js"></script>

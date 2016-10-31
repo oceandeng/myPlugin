@@ -1,11 +1,12 @@
 /* 
 * @Author: ocean
 * @Date:   2015-06-29 10:16:24
-* @Last Modified by:   ocean
-* @Last Modified time: 2015-11-17 09:53:42
+* @Last Modified by:   denghaiyang
+* @Last Modified time: 2016-10-20 17:17:13
 */
 
 'use strict';
+
 
 var loading = function(arg){
 	var isEmpty = function(obj){
@@ -54,6 +55,7 @@ var loading = function(arg){
 	        this.height = isConsist ? arg.height ? arg.height : 15 : 15;
 	        this.width = isConsist ? arg.width ? arg.width : 3 : 3;
 	        this.time = isConsist ? arg.time ? arg.time : 100 : 100;
+	        this.full = arg.full || false;
 
 	    },
 	    start: function(){
@@ -80,20 +82,36 @@ var loading = function(arg){
 			this.canvas = document.createElement('canvas');
 			this.offcanvas = document.createElement('canvas');
 
-	        this.page_body.appendChild(this.canvas);
+			if(this.full){
+				this.fullBg = document.createElement('div');
+	       	 	this.fullBg.appendChild(this.canvas);
+				this.page_body.appendChild(this.fullBg);
+			}else{
+		        this.page_body.appendChild(this.canvas);
+			}
+
 
 	    },
 	    setStyle: function(){
+	    	if(this.fullBg){
+	    		this.fullBg.style.backgroundColor = 'rgba(0, 0, 0, .6)';
+	    		this.fullBg.style.position = 'fixed';
+	    		this.fullBg.style.top = '0';
+	    		this.fullBg.style.zIndex = 99;
+	    		this.fullBg.style.width = '100%';
+	    		this.fullBg.style.height = '100%';
+	    	}
+
 	    	this.canvas.id = this.id;
 	        this.canvas.width = this.offcanvas.width = 160;
 	        this.canvas.height = this.offcanvas.height = 160;
 	        this.canvas.style.width = this.offcanvas.style.width = "80px";
 	        this.canvas.style.height = this.offcanvas.style.height = "80px";
 	        this.canvas.style.position = 'fixed';
-	        this.canvas.style.top = '40%';
+	    	this.canvas.style.zIndex = 999;
+	        this.canvas.style.top = '30%';
 	        this.canvas.style.left = '50%';
 	        this.canvas.style.marginLeft = '-40px';
-	        this.canvas.style.zIndex = '99';
 	    },
 	    draw: function(){
 	    	this.ctx = this.canvas.getContext("2d");
@@ -104,8 +122,9 @@ var loading = function(arg){
 
 	        this.offctx.translate(this.offctx.width/1.5, this.offctx.height/1.5);
 	        var radius = 2;
-	        this.view(radius);
 
+	        this.view(radius);
+	  
 	    },
 	    loop: function(alpha){
 	        this.offctx.rotate(Math.PI*2/this.block);
@@ -122,7 +141,9 @@ var loading = function(arg){
 
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-			// fillRoundRect(this.ctx, 0, 0, this.canvas.width, this.canvas.height, 10);
+	        if(!this.full){
+				fillRoundRect(this.ctx, 0, 0, this.canvas.width, this.canvas.height, 10);
+			}
             this.ctx.drawImage(this.offcanvas, 0, 0);
             this.offctx.clearRect(-this.offctx.width/2, -this.offctx.height/2, this.offctx.width, this.offctx.height);
 
@@ -131,6 +152,7 @@ var loading = function(arg){
 	        for(var i = 1; i <= this.block; i ++){
 	            this.loop(i/this.block);
 	        };
+
 	        this.timeout = setTimeout(function(){
 	            that.view(radius);
 	        }, that.time);
@@ -144,8 +166,12 @@ var loading = function(arg){
 			for(var i = 0, l = childs.length; i < l; i ++){
 				if(childs[i].nodeName.toLowerCase() == "canvas" && childs[i].id == 'loading'){
 					flag = false;
-				}else{
-					flag = true;
+				}
+
+				if(childs[i].childNodes[0]){
+					if(childs[i].childNodes[0].nodeName.toLowerCase() == "canvas" && childs[i].childNodes[0].id == 'loading'){
+						flag = false;
+					}
 				}
 			}
 
@@ -153,7 +179,10 @@ var loading = function(arg){
 	            this.canvas.parentNode.removeChild(this.canvas);
 	            clearTimeout(that.timeout);
 			}
-
+			if(!flag && this.full){
+				this.fullBg.parentNode.removeChild(this.fullBg);
+	            clearTimeout(that.timeout);
+			}
 	    },
 	    close: function(){
 	    	this.removeDom();
@@ -161,3 +190,15 @@ var loading = function(arg){
 	}
 	return new LoadingImg(arg);
 };
+
+/********************************************
+// -- 调用DEMO 
+*********************************************/
+
+// $('#demo').on('click', function(){
+// 	load.start();
+// });
+
+// $('#menu').on('click', function(){
+// 	load && load.close();
+// });

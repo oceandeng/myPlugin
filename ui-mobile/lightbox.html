@@ -11,10 +11,10 @@
 <!-- endbuild -->
 </head>
 <body>
-	
+
 	<div class="container" style="margin: 0 0 0 80px;">
 		
-		<figure class="p-img" id="postImg">
+		<figure class="p-img">
 			<div class="p-img-box">
 				<img src="images/test/b-demo-1.jpg" data-bsrc="images/test/b-demo-1.jpg" alt="">
 			</div>
@@ -31,7 +31,7 @@
 <hr>
 <hr>
 
-		<figure class="p-img" id="postImg">
+		<figure class="p-img">
 			<div class="p-img-box">
 				<img src="images/test/b-demo-1.jpg" data-bsrc="images/test/b-demo-1.jpg" alt="">
 			</div>
@@ -47,42 +47,52 @@
 <hr>
 <hr>
 
-		<figure class="p-img" id="postImg">
-			<div class="p-img-box">
-				<img src="images/test/b-demo-4.jpg" data-bsrc="images/test/b-demo-4.jpg" alt="">
-			</div>
-			<div class="p-img-box">
-				<img src="images/test/b-demo-5.jpg" data-bsrc="images/test/b-demo-5.jpg" alt="">
-			</div>
-			<div class="p-img-box">
-				<img src="images/test/b-demo-1.jpg" data-bsrc="images/test/b-demo-1.jpg" alt="">
-			</div>
-		</figure>
 
 	</div>
 
 
+<!-- build:js scripts/zepto.min.js -->
 <script src="scripts/components/zepto/zepto.js"></script>
 <script src="scripts/components/zepto/ajax.js"></script>
 <script src="scripts/components/zepto/event.js"></script>
 <script src="scripts/components/zepto/touch.js"></script>
 <script src="scripts/components/zepto/fx.js"></script>
 <script src="scripts/components/zepto/fx_methods.js"></script>
+<!-- endbuild -->
 
+<!-- build:js scripts/components.js -->
 <script src="scripts/components/otools.js"></script>
 <script src="scripts/components/fastclick.js"></script>
 <script src="scripts/components/loading.js"></script>
-
+<!-- endbuild -->
 <!-- build:js scripts/lightbox/lightbox.js -->
 <script src="scripts/lightbox/lightbox.js"></script>
 <script src="scripts/lightbox/lightbox-invoke.js"></script>
 <!-- endbuild -->
 
+<script>
+	var html = '<figure class="p-img"><div class="p-img-box"><img src="images/test/b-demo-4.jpg" data-bsrc="images/test/b-demo-4.jpg" alt=""></div><div class="p-img-box"><img src="images/test/b-demo-5.jpg" data-bsrc="images/test/b-demo-5.jpg" alt=""></div><div class="p-img-box"><img src="images/test/b-demo-1.jpg" data-bsrc="images/test/b-demo-1.jpg" alt=""></div></figure>';
+
+	$('.container').append(html);
+</script>
 
 <script>
+	$(window).load(function(){
+		var sW = 0, sH = 0, dW = 0, dH = 0;
+		sW = $(window).width();
+		sH = $(window).height();
+		dW = document.body.clientWidth;
+		dH = $('body').height();
 
-
-
+		var l = new LightBoxInvoke({
+			sW: sW,
+			sH: sH,
+			dW: dW,
+			dH: dH,
+			$ele: $('.p-img')
+		})
+		l.init();
+	})
 </script>
 
 </body>

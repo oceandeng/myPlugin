@@ -1,8 +1,8 @@
 /*
 * @Author: ocean_deng
 * @Date:   2016-09-26 11:15:29
-* @Last Modified by:   ocean_deng
-* @Last Modified time: 2016-09-27 09:59:23
+* @Last Modified by:   denghaiyang
+* @Last Modified time: 2016-10-20 17:17:21
 */
 
 'use strict';
@@ -91,6 +91,12 @@
 		    }
 		});
 	};
+
+	publicDialog.fullLoading = loading({
+		'width': 5,
+		'height': 20,
+		'full': true
+	});
 
 	G.publicDialog = publicDialog
 

@@ -8,13 +8,14 @@
 <title>upload</title>
 <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="styles/main.css">
-<link rel="stylesheet" type="text/css" href="styles/upload.css">
+<link rel="stylesheet" type="text/css" href="styles/uploadifive.css">
 </head>
 <body>
 
 	<div class="container p10">
 
 		<div class="upload-img-box">
+<<<<<<< HEAD
 			<div class="img-item">
 				<div id="uploadBtn" class="upload-img-btn">
 					<input type="file" id="pictures" class="upload-file" name="pictures" multiple="multiple" accept="image/*">
@@ -24,58 +25,51 @@
 					</div>
 				</div>
 			</div>
+=======
+			<div id="queue"></div>
+			<input id="file_upload" name="file_upload" type="file" multiple="true">
+>>>>>>> 53a0763fc42e7c565f4f95656ee0171e9c2bf4c2
 
 		</div>
 
+
+		
 	</div>
-<script src="scripts/components/zepto/zepto.js"></script>
-<script src="scripts/components/zepto/ajax.js"></script>
-<script src="scripts/components/zepto/event.js"></script>
-<script src="scripts/components/zepto/touch.js"></script>
-<script src="scripts/components/zepto/fx.js"></script>
-<script src="scripts/components/zepto/fx_methods.js"></script>
 
-<script src="scripts/components/otools.js"></script>
-<script src="scripts/components/fastclick.js"></script>
-<script src="scripts/components/loading.js"></script>
 
-<!-- build:js scripts/upload/upload.js -->
-<script src="scripts/upload/upload.js"></script>
+
+<!-- build:js scripts/jquery.min.js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<!-- endbuild -->
+<!-- build:js scripts/upload/upload.min.js -->
+<script src="scripts/upload/jquery.uploadifive.js"></script>
 <!-- endbuild -->
 
 <script>
-	var $iItems = $('.img-item'),
-		iW = $iItems.eq(0).width();
 
-	// 上传按钮
-	$('.upload-img-con').parent().on(oTools.clickEvent, '.upload-img-con', function(){
-		$(this).siblings('input[type="file"]').click();
+	$('#file_upload').uploadifive({
+		'buttonText'       : '选择图片',
+		'fileType'         : 'image/*',
+
+		'formData'         : {
+							   'timestamp' : 'aaa',
+							   'token'     : 'bbb'
+		                     },
+		'queueID'          : 'queue',
+		'uploadScript'     : 'http://172.23.164.135/interface/uploadimg.php',
+		'onUploadComplete' : function(file, data) {
+			console.log(file)
+			console.log(data)
+            scope[attrs.callback] && scope[attrs.callback]();
+        },
+        'onCancel'         : function(file, close){
+
+            scope[attrs.callback] && scope[attrs.callback]();
+        }
 	});
 
-	// 插件绑定
-	$('#pictures').uploadimg({
-		url: 'http://ocean.cn/interface/upload.php',	// 上传图片地址
-		uplimit: 3,										// 上传最大数量
-		previewWrap: '.upload-img-box',					// 按照dom结构写、不需要变
-		size: {'width': iW},							// 自适应每个方框的高度
-		success: function(res, index){					// 上传成功回调
-			var data = JSON.parse(res);
-			var $_this = $('#' + index);
-			var input = '<input type="hidden" name="" value="' + data.name + '">';
-			$_this.append(input);
-		},
-	});
 
-	$(window).load(function (argument) {
-		uploadImgInit(iW);
-	})
 
-	function uploadImgInit(iW){
-		$iItems.each(function(k, v){
-			var $_this = $(v);
-			$_this.find('div').first().css('height', iW - 5);
-		})
-	}
 </script>
 </body>
 </html>

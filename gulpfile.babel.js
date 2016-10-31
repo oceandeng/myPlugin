@@ -7,21 +7,28 @@ import {stream as wiredep} from 'wiredep';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
-const app = "ui-pc";
+const app = "ui-mobile";
 
+// gulp.task('styles', () => {
+//   return gulp.src(app + '/styles/*.scss')
+//     .pipe($.plumber())
+//     .pipe($.sourcemaps.init())
+//     .pipe($.sass.sync({
+//       outputStyle: 'expanded',
+//       precision: 10,
+//       includePaths: ['.']
+//     }).on('error', $.sass.logError))
+//     .pipe($.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
+//     .pipe($.sourcemaps.write())
+//     .pipe(gulp.dest('.tmp/styles'))
+//     .pipe(reload({stream: true}));
+// });
 gulp.task('styles', () => {
-  return gulp.src(app + '/styles/*.scss')
+  return $.rubySass(app + '/styles/**/*.scss', {style: 'expanded'})
     .pipe($.plumber())
-    .pipe($.sourcemaps.init())
-    .pipe($.sass.sync({
-      outputStyle: 'expanded',
-      precision: 10,
-      includePaths: ['.']
-    }).on('error', $.sass.logError))
-    .pipe($.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
-    .pipe($.sourcemaps.write())
+    .pipe($.autoprefixer({browder: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
     .pipe(gulp.dest('.tmp/styles'))
-    .pipe(reload({stream: true}));
+    .pipe(reload({stream: true}))
 });
 
 gulp.task('scripts', () => {
@@ -55,9 +62,9 @@ gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 gulp.task('html', ['styles', 'scripts'], () => {
   return gulp.src(app + '/*.html')
     .pipe($.useref({searchPath: ['.tmp', app, '.']}))
-    .pipe($.if('*.js', $.uglify()))
-    .pipe($.if('*.css', $.cssnano()))
-    .pipe($.if('*.html', $.htmlmin()))
+    .pipe($.if('**/*.js', $.uglify()))
+    .pipe($.if('**/*.css', $.cssnano()))
+    // .pipe($.if('*.html', $.htmlmin()))
     .pipe(gulp.dest('dist'));
 });
 

@@ -1,8 +1,8 @@
 /*
 * @Author: ocean_deng
 * @Date:   2016-09-27 16:04:44
-* @Last Modified by:   ocean_deng
-* @Last Modified time: 2016-09-30 14:59:26
+* @Last Modified by:   denghaiyang
+* @Last Modified time: 2016-10-21 15:01:32
 */
 
 'use strict';
@@ -56,19 +56,24 @@
 				});
 
 				// 调用对文件处理的方法
-				_this.fileSelected(config.uploadFiles);
-				_this.uploadFile();
+				var result = _this.fileSelected(config.uploadFiles);
+				if(!result){
+					_this.uploadFile();
+				}
 			}
 		    this.uploadFile = function () {
 		    	load.start();
 		        var xhr = new XMLHttpRequest();
 		        xhr.addEventListener("load", _this.uploadComplete, false);
-		        xhr.addEventListener("progress", _this.uploadProgress, false);
 		        xhr.addEventListener("error", _this.uploadFailed, false);
 		        xhr.addEventListener("abort", _this.uploadCanceled, false);
 		        xhr.open("POST", config.url, true);
+		        xhr.upload.addEventListener("progress", _this.uploadProgress, false);
+
 		        var fd = new FormData();
 		        fd.append($(_this).attr('name'), config.uploadFiles[config.index]);
+
+		        
 
 		        xhr.send(fd);
 		        xhr.onreadystatechange=function(){
@@ -89,6 +94,7 @@
 		    		console.log('all done');
 		    		config.index = 0;
 		    		_this.emptyDel(config.uploadFiles);
+		    		$(_this).val('');
 					load && load.close();
 					return;
 		    	}
@@ -104,7 +110,12 @@
 			    	},
 			    	calcH = config.size.width;
 
-			    if(fs.length > 0 && fs.length <= config.uplimit){
+			    if((fs.length + config.uplength) > config.uplimit){
+					_this.minlimit();
+					return true;
+			    }
+
+			    if(fs.length > 0){
 			    	for(var i = 0, len = fs.length; i < len; i++){
 						(function(i){
 				    		path[i] = _this.getBlobURL(fs[i]);
@@ -116,14 +127,18 @@
 								imgSize._w = img.width;
 								imgSize._h = img.height;
 						
-								html += '<div id="' + fs[i].index + '" class="img-item" style="height:' + calcH + 'px">';
+								html += '<div id="' + fs[i].index + '" class="img-item file-item" style="height:' + calcH + 'px">';
 								html += '<div class="preview" data-index="queue-' + i + '"' +
 								                '<div class="img-box">';
 								html += '<img id="img' + timestamp + i + '" src="' + path[i] + '"/>'
 								html += '</div><div class="remove">x</div></div></div>';
 								$(config.previewWrap).append(html);
+
+		    					++config.uplength;
+
 								var $img = $('#img' + timestamp + i),
 									ratio = imgSize._w / imgSize._h;
+
 								if(imgSize._w > calcH){
 									$img.css({
 										width: calcH,
@@ -147,28 +162,14 @@
 							img.src = path[i];
 						})(i)
 			    	}
-			    }else{
-					if(fs.length == config.uplimit){
-						_this.minlimit();
-					};
-				}
+			    }
 			};
 
-//删除对应的文件
-			this.funDeleteFile = function(delFileIndex, isCb){
-				var self = this;  // 在each中this指向每个v  所以先将this保留
-
-				$.each(config.uploadFile, function(k, v){
-					if(delFile != v){
-						// 如果不是删除的那个文件 就放到临时数组中
-						tmpFile.push(v);
-					}else{
-
-					};
-				});
-				config.uploadFile = tmpFile;
-
-				return true;
+			//删除对应的文件
+			this.funDeleteFile = function(_this){
+				var $_this = $(_this);
+		    	--config.uplength;
+	    		$_this.parents('.img-item').remove();
 			};
 			this.uploadProgress = function(evt) {
 			    if (evt.lengthComputable) {
@@ -203,10 +204,7 @@
 			});
 
 	    	$(config.previewWrap).on('click', '.remove', function(){
-	    		var $_this = $(this);
-
-	    		$_this.parents('.img-item').remove();
-
+	    		_this.funDeleteFile(this)
 	    	});
 
 		});
@@ -217,6 +215,7 @@
 		index: 0,
 		fileNum: 0,
 		previewWrap: '',
+		uplength: 0,
 		uplimit: 9
 	};
 

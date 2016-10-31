@@ -6,9 +6,13 @@
 <meta name="format-detection" content="telephone=no,email=no">
 
 <title>upload</title>
+<!-- build:css styles/bootstrap.min.css -->
 <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- endbuild -->
 <link rel="stylesheet" type="text/css" href="styles/main.css">
+<!-- build:css styles/upload.css -->
 <link rel="stylesheet" type="text/css" href="styles/upload.css">
+<!-- endbuild -->
 </head>
 <body>
 
@@ -29,38 +33,49 @@
 		</div>
 
 	</div>
+
+<!-- build:js scripts/zepto.min.js -->
 <script src="scripts/components/zepto/zepto.js"></script>
 <script src="scripts/components/zepto/ajax.js"></script>
 <script src="scripts/components/zepto/event.js"></script>
 <script src="scripts/components/zepto/touch.js"></script>
 <script src="scripts/components/zepto/fx.js"></script>
 <script src="scripts/components/zepto/fx_methods.js"></script>
+<!-- endbuild -->
 
+<!-- build:js scripts/components.js -->
 <script src="scripts/components/otools.js"></script>
 <script src="scripts/components/fastclick.js"></script>
 <script src="scripts/components/loading.js"></script>
+<!-- endbuild -->
 
 <!-- build:js scripts/upload/upload.js -->
 <script src="scripts/upload/upload.js"></script>
 <!-- endbuild -->
 
 <script>
+(function(){
+
 	var $iItems = $('.img-item'),
 		iW = $iItems.eq(0).width();
 
 	// 上传按钮
-	$('.upload-img-con').parent().on(oTools.clickEvent, '.upload-img-con', function(){
+	$('.upload-img-con').on(oTools.clickEvent, function(){
 		$(this).siblings('input[type="file"]').click();
 	});
 
 	// 插件绑定
 	$('#pictures').uploadimg({
-		url: 'http://ocean.cn/interface/upload.php',	// 上传图片地址
+		url: 'http://ocean.cn/interface/uploadifive.php',	// 上传图片地址
 		uplimit: 3,										// 上传最大数量
 		previewWrap: '.upload-img-box',					// 按照dom结构写、不要变
 		size: {'width': iW},							// 自适应每个方框的高度
 		success: function(res, index){					// 上传成功回调
 			var data = JSON.parse(res);
+
+			// 把返回的地址放到input[type=hidden] 在对应的预览中
+			// 提交表单时直接取对应的input[type=hidden]中的值
+			// 删除预览，等于删除了对应的返回值
 			var $_this = $('#' + index);
 			var input = '<input type="hidden" name="" value="' + data.name + '">';
 			$_this.append(input);
@@ -77,6 +92,9 @@
 			$_this.find('div').first().css('height', iW - 5);
 		})
 	}
+
+
+})();
 </script>
 </body>
 </html>

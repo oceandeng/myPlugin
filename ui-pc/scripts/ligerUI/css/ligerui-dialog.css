@@ -47,10 +47,10 @@
    *   window  *
 * ------------ */
 .l-window-mask{
-	    position:absolute;left:0;top:0;width:100%;height:100%; filter:alpha(opacity=25);opacity:0.25;background:#777;display1:none;font-size:1px; *zoom:1;overflow:hidden; display:none;z-index: 9000;
+        position:absolute;left:0;top:0;width:100%;height:100%; filter:alpha(opacity=25);opacity:0.25;background:#777;display1:none;font-size:1px; *zoom:1;overflow:hidden; display:none;z-index: 9000;
     }
 .l-window-mask-nobackground{
-	    position:absolute;left:0;top:0;width:100%;height:100%; display1:none;font-size:1px; *zoom:1;overflow:hidden; display:none;z-index: 9000;
+        position:absolute;left:0;top:0;width:100%;height:100%; display1:none;font-size:1px; *zoom:1;overflow:hidden; display:none;z-index: 9000;
     }
 .l-window-dragging
 {
@@ -88,7 +88,7 @@
     _position:absolute;_bottom:auto;_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));
 }
 .l-dialog-table{ }
-.l-dialog-body{ position:relative; min-height: 175px;}
+.l-dialog-body{ position:relative;}
 .l-dialog{ padding:0; margin:0;font-size:12px; } 
 .l-dialog td,.l-dialog tr,.l-dialog td div{font-size:12px; } 
 
@@ -100,7 +100,7 @@
  
 .l-dialog-tl{ background:none;border-bottom: 1px solid #f5f5f5;}
 // .l-dialog-tc{font-size: 14px;font-weight: bold;height: 29px;line-height: 29px;padding-left: 10px; background: #f4f5f9}
-.l-dialog-tc{font-size: 14px;font-weight: bold;height: 29px;line-height: 29px;padding-left: 10px; background: #54a1e9}
+.l-dialog-tc{font-size: 14px;font-weight: bold;height: 29px;line-height: 29px;padding-left: 10px; background: #f4f5f9}
 .l-dialog-tr{background:none;}
 .l-dialog-bl{background:none;}
 .l-dialog-bc{background:none;}
@@ -136,14 +136,16 @@
 .l-dialog-extend-disabled{background-position:-68px -32px;cursor:default;}
 
 .l-dialog-tc-inner{ position:relative;height:40px; line-height:40px; width:100%;  }
-.l-dialog-title { color:#fff; font-size: 14px; font-weight:700; text-shadow:none; padding-left:3px; padding-right:20px; text-align:left; padding-top:0px;} 
+.l-dialog-title { color:#666; font-size: 14px; font-weight:700; text-shadow:none; padding-left:3px; padding-right:20px; text-align:left; padding-top:0px;} 
 // .l-dialog-title i{ font-size: 28px; color: #fc4545; float: left;margin-right: 10px; }
 .l-dialog-title i{ font-size: 28px; float: left;margin-right: 10px; }
 .l-dialog-content{} 
-.l-dialog-mycontent{padding: 0 52px;}
+.l-dialog-mycontent{padding: 30px 20px 20px 20px;}
 .l-dialog-mycontent p{ line-height: 20px; color: #999; }
+.l-dialog-mycontent .dl-content{font-size: 18px; color: #333; text-align: center;}
+
 .l-dialog-content-dragging iframe { }
-.l-dialog-win .l-dialog-content{  }
+.l-dialog-win .l-dialog-content{ }
 .l-dialog-content-nopadding{ padding:0;}
 .l-dialog-content iframe {border: none;width: 100%;height: 100%;}
 .l-dialog-image{ width:40px; height:40px; overflow:hidden; display:none; position:absolute; top:30px; left:60px;background:url('../images/win/dialog-icons.png') no-repeat;}
@@ -154,10 +156,30 @@
 
 .l-dialog-image-loading{ background:white url('../images/common/loading2.gif') no-repeat center; width:28px; height:28px;}
 
-.l-dialog-buttons{ /*height:30px; line-height:30px; */padding: 20px 0 30px;}
+.l-dialog-buttons{ /*height:30px; line-height:30px; */ padding: 10px 0 20px 0;}
 .l-dialog-buttons-inner { text-align: center; }
 .l-dialog-buttons-inner .btn{padding: 0 30px;}
 .l-dialog-buttons-inner .btn.btnMr{ margin-right: 20px; }
+.l-dialog-btn{
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+}
+.btn-guide{
+    background: #58a2e6;
+    border: 1px solid #3980d6;
+    color: #fff;
+}
+.btn-guide:hover{
+    background: #4d94d4 !important;
+    border: 1px solid #3980d6 !important;
+    color: #fff !important;
+}
+.btn-normal{
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #666;
+}
 .l-dialog-btn-l,.l-dialog-btn-r{display:none;}
 /*.l-dialog-buttons
 {
@@ -238,17 +260,16 @@ text-shadow: 0 2px 2px rgba(0,0,0,0.22);
 .l-messagebox-btn-r { height:24px; position:absolute; right:0px; top:0px; width:4px;background-position:-4px -24px;}
 .l-messagebox-btn-over .l-messagebox-btn-r {background-position:-4px -75px;}
 
-
 /* 选择窗口,填充模式,隐藏滚动条 */
 .l-selectorwin .l-dialog-content {
-	overflow:hidden; padding:0px;
+    overflow:hidden; padding:0px;
 }
 .l-selectorwin .l-dialog-content .l-form {
-	margin:0; padding:2px; background:#EAF2FF;border-bottom: 1px solid #AECAF0;
+    margin:0; padding:2px; background:#EAF2FF;border-bottom: 1px solid #AECAF0;
 }
 .l-selectorwin .l-dialog-buttons {
-	margin-top: 0;
+    margin-top: 0;
 }
 .l-selectorwin .l-panel {
-	border:0;
+    border:0;
 }
