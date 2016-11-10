@@ -27,26 +27,6 @@
 		</figure>
 
 
-<hr>
-<hr>
-<hr>
-
-		<figure class="p-img">
-			<div class="p-img-box">
-				<img src="images/test/b-demo-1.jpg" data-bsrc="images/test/b-demo-1.jpg" alt="">
-			</div>
-			<div class="p-img-box">
-				<img src="images/test/b-demo-2.jpg" data-bsrc="images/test/b-demo-2.jpg" alt="">
-			</div>
-			<div class="p-img-box">
-				<img src="images/test/b-demo-3.jpg" data-bsrc="images/test/b-demo-3.jpg" alt="">
-			</div>
-		</figure>
-
-<hr>
-<hr>
-<hr>
-
 
 	</div>
 
@@ -69,30 +49,23 @@
 <script src="scripts/lightbox/lightbox.js"></script>
 <script src="scripts/lightbox/lightbox-invoke.js"></script>
 <!-- endbuild -->
-
-<script>
-	var html = '<figure class="p-img"><div class="p-img-box"><img src="images/test/b-demo-4.jpg" data-bsrc="images/test/b-demo-4.jpg" alt=""></div><div class="p-img-box"><img src="images/test/b-demo-5.jpg" data-bsrc="images/test/b-demo-5.jpg" alt=""></div><div class="p-img-box"><img src="images/test/b-demo-1.jpg" data-bsrc="images/test/b-demo-1.jpg" alt=""></div></figure>';
-
-	$('.container').append(html);
-</script>
-
+<!-- build:js scripts/fastclick.js -->
+<script src="scripts/fastclick.js"></script>
+<!-- endbuild -->
 <script>
 	$(window).load(function(){
 		var sW = 0, sH = 0, dW = 0, dH = 0;
 		sW = $(window).width();
 		sH = $(window).height();
-		dW = document.body.clientWidth;
-		dH = $('body').height();
 
-		var l = new LightBoxInvoke({
-			sW: sW,
-			sH: sH,
-			dW: dW,
-			dH: dH,
-			$ele: $('.p-img')
-		})
-		l.init();
+		$('.p-img').lightBox({
+			width: sW,
+			height: sH,
+			cEvent: oTools.clickEvent,
+			parentClass: '.p-img-box'
+		});
 	})
 </script>
+
 </body>
 </html>

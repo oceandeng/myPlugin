@@ -1,8 +1,8 @@
 /* 
 * @Author: ocean
 * @Date:   2015-06-29 10:14:28
-* @Last Modified by:   ocean_deng
-* @Last Modified time: 2016-08-05 10:12:41
+* @Last Modified by:   web
+* @Last Modified time: 2016-11-09 19:04:22
 */
 
 'use strict';
@@ -15,7 +15,7 @@ var oTools = {
 	isIOS: /iphone|ipad|ipod/i.test(ua),
 	isWechat: /MicroMessenger/i.test(ua),
     // 检测是否支持 touch 事件
-    clickEvent: "ontouchstart" in document.documentElement ? "tap" : "click",
+    clickEvent: "ontouchstart" in window ? "tap" : "click",
     ranNum: Math.ceil(Math.random() * 1e10),
     timeNum: Date.now(),
 

@@ -1,8 +1,8 @@
 /* 
 * @Author: ocean
 * @Date:   2015-09-23 15:08:54
-* @Last Modified by:   denghaiyang
-* @Last Modified time: 2016-10-11 16:19:44
+* @Last Modified by:   web
+* @Last Modified time: 2016-11-02 14:54:11
 */
 
 'use strict';
@@ -143,6 +143,9 @@
         load.start();
 
         this.img[this.index].onload = function(){
+            load && load.close();
+        }
+        this.img[this.index].onerror = function(){
             load && load.close();
         }
 
@@ -368,7 +371,7 @@
         var _this = this;
 
         // $(this.shade).on('tap', function(){
-        $(_this.content).find('#imgList').find('img').on('tap', function(){
+        $(_this.content).find('#imgList').find('li').on('tap', function(){
             _this.close();
         });
     }
