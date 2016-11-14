@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no,email=no">
+
+<title>upload</title>
+<!-- build:css styles/bootstrap.min.css -->
+<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- endbuild -->
+<link rel="stylesheet" type="text/css" href="styles/main.css">
+<!-- build:css styles/daterange.css -->
+<link rel="stylesheet" type="text/css" href="styles/daterange.css">
+<!-- endbuild -->
+</head>
+<body>
+
+<div class="container p10">
+
+	<div id="date">btn</div>
+	
+
+</div>
+
+<!-- build:js scripts/jquery.min.js -->
+<script src="scripts/components/jquery.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/components.js -->
+<script src="scripts/components/otools.js"></script>
+<script src="scripts/components/fastclick.js"></script>
+<script src="scripts/components/loading.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/daterange/daterange.js -->
+<script src="scripts/daterange/daterange.js"></script>
+<!-- endbuild -->
+
+
+
+
+<script>
+(function(){
+
+	$.pickerDateRange({
+		startDate: '2016-12-10',//默认入住日期
+		endDate: '2016-12-15',//默认离开日期
+		id: 'date',
+		datas: ['2016-12-15', '2016-12-16'],
+		success:function(param){//点击群定按钮回调
+			console.log(param);
+
+		}
+	})
+
+})();
+</script>
+</body>
+</html>
