@@ -7,7 +7,7 @@ import {stream as wiredep} from 'wiredep';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
-const app = "regexp";
+const app = "module-library";
 
 // gulp.task('styles', () => {
 //   return gulp.src(app + '/styles/*.scss')
