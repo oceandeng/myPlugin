@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+</head>
+<body>
+
+<script>
+	var reg = /\bis\b/
+	var reg = new RegExp('\\bis\\b', 'g')
+
+	var reg1 = /\w/;
+	var reg2 = /\w/g
+	while(reg2.test('ab')){
+		console.log(reg2.lastIndex)
+	}
+	reg.test('ab')
+
+</script>
+</body>
+</html>
