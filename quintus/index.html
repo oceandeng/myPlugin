@@ -1,72 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>Document</title>
-<link rel="stylesheet" type="text/css" href="styles/main.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
+
 <body>
 	<div id="timer">0</div>
 	<div id="fps">0</div>
 	<button id="pause">Pause</button>
 	<button id="unpause">Unpause</button>
 
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="bower_components/underscore/underscore-min.js"></script>
-<script src="scripts/inherit.js"></script>
-<script src="scripts/requestAnimationFrame.js"></script>
-<script src="scripts/quintus.js"></script>
-<script>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/underscore/underscore-min.js"></script>
+	<script src="scripts/inherit.js"></script>
+	<script src="scripts/requestAnimationFrame.js"></script>
+	<script src="scripts/quintus.js"></script>
+	<script>
+		// 测试游戏循环
+		var TimerTest = Quintus();
 
-// 测试游戏循环
-	var TimerTest = Quintus();
+		var totalFrames = 0,
+			totalTime = 0;
 
-	var totalFrames = 0,
-		totalTime = 0;
+		// TimerTest.gameLoop(function(dt) {
+		// 	totalTime += dt;
+		// 	totalFrames += 1;
+		// 	$('#timer').text(Math.round(totalTime * 1000) + " MS");
+		// 	$('#fps').text(Math.round(totalFrames / totalTime) + " FPS");
+		// });
 
-	// TimerTest.gameLoop(function(dt){
-	// 	totalTime += dt;
-	// 	totalFrames += 1;
-	// 	$('#timer').text(Math.round(totalTime * 1000) + " MS");
-	// 	$('#fps').text(Math.round(totalFrames / totalTime) + " FPS");
-	// });
+		$('#pause').on('click', TimerTest.pauseGame);
+		$("#unpause").on('click', TimerTest.unpauseGame);
 
-	$('#pause').on('click', TimerTest.pauseGame);
-	$("#unpause").on('click', TimerTest.unpauseGame);
+		// 测试Class继承
+		var Person = Class.extend({
+			init: function() {
+				console.log('Created Person')
+			},
+			speak: function() {
+				console.log('Person Speaking')
+			}
+		})
 
-// 测试Class继承
-	var Person = Class.extend({
-		init: function(){console.log('Created Person')},
-		speak: function(){console.log('Person Speaking')}
-	})
+		var p = new Person();
+		p.speak();
 
-	var p = new Person();
-	p.speak();
+		var Guy = Person.extend({
+			init: function() {
+				this._super();
+				console.log('Created Guy')
+			},
+			speak: function() {
+				this._super();
+				console.log('I`m a Guy')
+			}
+		})
+		var bob = new Guy();
+		bob.speak();
 
-	var Guy = Person.extend({
-		init: function(){this._super(); console.log('Created Guy')},
-		speak: function(){this._super(); console.log('I`m a Guy')}
-	})
-	var bob = new Guy();
-	bob.speak();
+		// Gril
+		var Gril = Person.extend({
+			init: function() {
+				console.log('Created Gril')
+			},
+			speak: function() {
+				console.log('I`m a Gril')
+			}
+		})
+		var jill = new Gril();
+		jill.speak();
 
-	// Gril
-	var Gril = Person.extend({
-		init: function(){console.log('Created Gril')},
-		speak: function(){console.log('I`m a Gril')}
-	})
-	var jill = new Gril();
-	jill.speak();
-
-	console.log(bob instanceof Person);		//true
-	console.log(bob instanceof Guy);		//true
-	console.log(bob instanceof Gril);		//false
-	console.log(bob instanceof Person);		//true
-	console.log(bob instanceof Guy);		//false
-	console.log(bob instanceof Gril);		//true
-
-
-</script>
+		console.log(bob instanceof Person); //true
+		console.log(bob instanceof Guy); //true
+		console.log(bob instanceof Gril); //false
+		console.log(bob instanceof Person); //true
+		console.log(bob instanceof Guy); //false
+		console.log(bob instanceof Gril); //true
+	</script>
 </body>
+
 </html>
