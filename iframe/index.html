@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+
+    sub iframe
+
+    <button id="goIndex">跳到首页</button>
+    <button id="goExpenses">发票列表</button>
+    <button id="goIframe">带参数页面</button>
+
+
+    <!-- build:js scripts/xdm.min.js -->
+    <script src="./scripts/xdm.js"></script>
+    <script src="./scripts/main.js"></script>
+    <!-- endbuild -->
+
+    <script>
+        (function() {
+
+            // 需要跳转的路由配置
+            var iframeConfig = {
+                goIndex: {
+                    path: '/platform/index'
+                },
+                goExpenses: {
+                    path: '/platform/expenses/list'
+                },
+                goIframe: {
+                    path: '/platform/iframe',
+                    query: {
+                        id: 123
+                    }
+                }
+            }
+
+            // 事件绑定
+            var goIndex = document.querySelector('#goIndex')
+            var goExpenses = document.querySelector('#goExpenses')
+            var goIframe = document.querySelector('#goIframe')
+
+            goIndex.onclick = function() {
+                iframeHost.goRouterInHost(iframeConfig.goIndex)
+            }
+
+            goExpenses.onclick = function() {
+                iframeHost.goRouterInHost(iframeConfig.goExpenses)
+            }
+
+            goIframe.onclick = function() {
+                iframeHost.goRouterInHost(iframeConfig.goIframe)
+            }
+
+        })()
+    </script>
+</body>
+
+</html>
