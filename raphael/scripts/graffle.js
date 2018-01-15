@@ -7,14 +7,16 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
     var bb1 = obj1.getBBox(),
         bb2 = obj2.getBBox(),
         p = [{x: bb1.x + bb1.width / 2, y: bb1.y - 1},
-        {x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + 1},
-        {x: bb1.x - 1, y: bb1.y + bb1.height / 2},
-        {x: bb1.x + bb1.width + 1, y: bb1.y + bb1.height / 2},
-        {x: bb2.x + bb2.width / 2, y: bb2.y - 1},
-        {x: bb2.x + bb2.width / 2, y: bb2.y + bb2.height + 1},
-        {x: bb2.x - 1, y: bb2.y + bb2.height / 2},
-        {x: bb2.x + bb2.width + 1, y: bb2.y + bb2.height / 2}],
-        d = {}, dis = [];
+            {x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + 1},
+            {x: bb1.x - 1, y: bb1.y + bb1.height / 2},
+            {x: bb1.x + bb1.width + 1, y: bb1.y + bb1.height / 2},
+            {x: bb2.x + bb2.width / 2, y: bb2.y - 1},
+            {x: bb2.x + bb2.width / 2, y: bb2.y + bb2.height + 1},
+            {x: bb2.x - 1, y: bb2.y + bb2.height / 2},
+            {x: bb2.x + bb2.width + 1, y: bb2.y + bb2.height / 2}],
+        d = {},
+        dis = [];
+        
     for (var i = 0; i < 4; i++) {
         for (var j = 4; j < 8; j++) {
             var dx = Math.abs(p[i].x - p[j].x),
